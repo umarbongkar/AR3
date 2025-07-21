@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AR with Needle Engine</title>
     <link rel="icon" href="data:,">
-    <!-- Load Needle Engine first -->
-    <script src="https://cdn.jsdelivr.net/npm/@needle-tools/engine@2.1.3/dist/needle-engine.min.js"></script>
+    <!-- Load as module -->
+    <script type="module" src="scripts/app.js"></script>
     <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
@@ -29,8 +29,5 @@
             <p>Point camera at a flat surface</p>
         </div>
     </div>
-
-    <!-- Load app.js after everything else -->
-    <script src="scripts/app.js"></script>
 </body>
 </html>
