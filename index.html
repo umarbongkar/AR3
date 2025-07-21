@@ -3,37 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR Experience with Needle Engine</title>
+    <title>AR with Needle Engine</title>
     <link rel="icon" href="data:,">
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@needle-tools/engine@1.0.0/dist/needle-engine.min.js"></script>
+    <!-- Load Needle Engine first -->
+    <script src="https://cdn.jsdelivr.net/npm/@needle-tools/engine@latest/dist/needle-engine.min.js"></script>
     <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
-    <div class="ar-container">
-        <needle-engine>
-            <a-scene background="color: #FAFAFA">
-                <!-- Model 3D -->
-                <a-entity 
-                    id="main-model"
-                    gltf-model="assets/models/astronaut.glb"
-                    position="0 0 -1.5"
-                    scale="0.5 0.5 0.5"
-                    rotation="0 180 0"
-                    animation__rotate="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear">
-                </a-entity>
-                
-                <a-camera position="0 0 0" look-controls></a-camera>
-            </a-scene>
-        </needle-engine>
-        
-        <div class="ui-overlay">
-            <button id="ar-button" class="ar-button">Start AR</button>
-            <div class="instructions">
-                <p>Point camera at a flat surface to place the model</p>
-            </div>
+    <needle-engine id="ar-engine">
+        <a-scene background="color: #FAFAFA">
+            <a-entity 
+                id="main-model"
+                gltf-model="assets/models/astronaut.glb"
+                position="0 0 -1.5"
+                scale="0.5 0.5 0.5"
+                rotation="0 180 0">
+            </a-entity>
+            <a-camera position="0 0 0" look-controls></a-camera>
+        </a-scene>
+    </needle-engine>
+
+    <div class="ui-overlay">
+        <button id="ar-button" class="ar-button">Start AR</button>
+        <div class="instructions">
+            <p>Point camera at a flat surface</p>
         </div>
     </div>
 
+    <!-- Load app.js after everything else -->
     <script src="scripts/app.js"></script>
 </body>
 </html>
