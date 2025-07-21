@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR Experience with Needle Engine</title>
+    <script src="https://cdn.jsdelivr.net/npm/@needle-tools/engine@latest/dist/needle-engine.min.js"></script>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <div class="ar-container">
+        <needle-engine id="needle-engine">
+            <a-scene background="color: #FAFAFA" arjs="sourceType: webcam;">
+                <!-- Model 3D utama -->
+                <a-entity 
+                    id="main-model"
+                    gltf-model="assets/models/astronaut.glb"
+                    position="0 0 -1.5"
+                    scale="0.5 0.5 0.5"
+                    rotation="0 180 0"
+                    animation__rotate="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear">
+                </a-entity>
+                
+                <!-- Kamera AR -->
+                <a-camera 
+                    position="0 0 0" 
+                    look-controls="enabled: true"
+                    arjs-camera="fov: 60; near: 0.1; far: 100">
+                </a-camera>
+            </a-scene>
+        </needle-engine>
+        
+        <div class="ui-overlay">
+            <button id="ar-button" class="ar-button">Start AR</button>
+            <div class="instructions">
+                <p>Arahkan kamera ke permukaan datar untuk menempatkan model</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/app.js"></script>
+</body>
+</html>
