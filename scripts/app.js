@@ -1,39 +1,39 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const needleEngine = document.getElementById('needle-engine');
+document.addEventListener('DOMContentLoaded', async () => {
+    const needleEngine = document.querySelector('needle-engine');
     const arButton = document.getElementById('ar-button');
     const mainModel = document.getElementById('main-model');
     
-    // Tambahkan indikator loading
+    // Loading indicator
     const loadingIndicator = document.createElement('div');
     loadingIndicator.className = 'loading';
-    loadingIndicator.textContent = 'Memuat pengalaman AR...';
+    loadingIndicator.textContent = 'Loading AR experience...';
     document.body.appendChild(loadingIndicator);
     
-    // Event ketika Needle Engine siap
-    needleEngine.addEventListener('loaded', async () => {
-        console.log('Needle Engine berhasil dimuat');
+    try {
+        // Wait for Needle Engine to be ready
+        await customElements.whenDefined('needle-engine');
+        
+        // Get the engine instance
+        const engine = needleEngine.engine;
+        if (!engine) throw new Error("Engine not initialized");
+        
+        console.log('Needle Engine loaded successfully');
         loadingIndicator.remove();
         
-        const engine = needleEngine.getEngine();
-        const scene = needleEngine.getScene();
-        
-        // Cek dukungan WebXR
+        // Check AR support
         if (!engine.isXRCapable()) {
-            arButton.textContent = 'AR tidak didukung di perangkat ini';
+            arButton.textContent = 'AR not supported on this device';
             arButton.disabled = true;
             return;
         }
         
-        // Event listener untuk tombol AR
+        // AR button handler
         arButton.addEventListener('click', async () => {
             try {
-                // Mulai sesi AR
                 await engine.startXR();
-                
-                // Sembunyikan tombol setelah AR dimulai
                 arButton.classList.add('hidden');
                 
-                // Animasi tambahan saat model muncul
+                // Model animation
                 mainModel.setAttribute('animation', {
                     property: 'scale',
                     from: '0.1 0.1 0.1',
@@ -41,19 +41,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     dur: 1000,
                     easing: 'easeOutElastic'
                 });
-                
-                console.log('Sesi AR berhasil dimulai');
             } catch (error) {
-                console.error('Gagal memulai AR:', error);
-                arButton.textContent = 'Gagal memulai AR. Coba lagi';
+                console.error('Failed to start AR:', error);
+                arButton.textContent = 'Failed to start AR. Try again';
             }
         });
         
-        // Event ketika model 3D selesai dimuat
+        // Model loaded event
         mainModel.addEventListener('model-loaded', () => {
-            console.log('Model 3D berhasil dimuat');
-            
-            // Tambahkan interaksi tap pada model
+            console.log('3D model loaded');
             mainModel.addEventListener('click', () => {
                 mainModel.setAttribute('animation__bounce', {
                     property: 'position.y',
@@ -66,20 +62,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             });
         });
-    });
-    
-    // Tangani error
-    needleEngine.addEventListener('error', (event) => {
-        console.error('Error pada Needle Engine:', event.detail);
-        loadingIndicator.textContent = 'Terjadi error. Silakan muat ulang halaman.';
-        arButton.disabled = true;
-    });
-});
-
-// Deteksi perubahan ukuran layar
-window.addEventListener('resize', () => {
-    const needleEngine = document.getElementById('needle-engine');
-    if (needleEngine && needleEngine.getEngine()) {
-        needleEngine.getEngine().resize();
+        
+    } catch (error) {
+        console.error('Needle Engine error:', error);
+        loadingIndicator.textContent = 'Error loading AR. Please refresh.';
+        if (arButton) arButton.disabled = true;
     }
 });
