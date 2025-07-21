@@ -1,6 +1,6 @@
 // Import Needle Engine as ES module
-import { Engine } from 'https://cdn.jsdelivr.net/npm/@needle-tools/engine@1.0.0/dist/needle-engine.min.js';
-
+//import { Engine } from 'https://cdn.jsdelivr.net/npm/@needle-tools/engine@1.0.0/dist/needle-engine.min.js';
+import { Engine } from 'https://unpkg.com/@needle-tools/engine@latest/dist/needle-engine.min.js';
 // Wait for DOM to load
 document.addEventListener('DOMContentLoaded', async () => {
     const needleEngine = document.getElementById('ar-engine');
